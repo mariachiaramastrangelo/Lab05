@@ -41,11 +41,28 @@ public class AnagrammiController {
 
     @FXML
     void doCalcolaAnagrammi(ActionEvent event) {
+    	if(this.txtParola.getText().isEmpty()) {
+    		this.txtRisultatoCorretto.setText("devi inserire una parola");
+    		this.txtRisultatoErrato.setText("Devi inserire una parola");
+    		return;
+    	}
+    	
+    	for(String a: model.generaAnagrammi(this.txtParola.getText())) {
+    		String anagramma= a.replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_`~()\\[\\]\"]", "");
+    		if(model.isCorretto(anagramma)) {
+    			this.txtRisultatoCorretto.appendText(anagramma+"\n");
+    		}else {
+    			this.txtRisultatoErrato.appendText(anagramma+"\n");
+    		}
+    	}
 
     }
 
     @FXML
     void doClear(ActionEvent event) {
+    	this.txtParola.clear();
+    	this.txtRisultatoCorretto.clear();
+    	this.txtRisultatoErrato.clear();
 
     }
 

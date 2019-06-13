@@ -1,22 +1,32 @@
 package it.polito.tdp.anagrammi.model;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
+import it.polito.tdp.anagrammi.db.ParoleDAO;
+
+
 public class AnagrammiModel {
-	
+
+	ParoleDAO pd= new ParoleDAO();
 	
 	public List<String> generaAnagrammi(String parola){
-		List<String> anagrammi= new LinkedList<String>();
+		List<String> anagrammi = new LinkedList<String>();
 		String parziale= "";
-		this.calcolaAnagrammi(parola, parziale, 0 , anagrammi);
+		calcolaAnagrammi(parziale, parola, 0, anagrammi);
 		return anagrammi;
 		
 	}
+	
+	public boolean isCorretto(String parola) {
+		return pd.isCorretto(parola);
+	}
+			
 	//metodo ricorsivo
-	private void calcolaAnagrammi(String parola, String parziale, int L, List<String> anagrammi) {
+	private void calcolaAnagrammi(String parziale, String parola, int j, List<String> anagrammi ) {
 		//metodo ricorsivo 
-		if(L==parola.length()) {
+		if(j == parola.length()) {
 			anagrammi.add(parziale);
 			return;
 		}
@@ -24,9 +34,9 @@ public class AnagrammiModel {
 			if(charCounter(parziale, parola.charAt(i))< charCounter(parola, parola.charAt(i))) {
 			parziale+= parola.charAt(i);
 			
-			this.calcolaAnagrammi(parola, parziale, L+1, anagrammi);
+			calcolaAnagrammi(parziale, parola, j+1, anagrammi);
 			
-			parziale.substring(0, parziale.length()-1);
+			parziale= parziale.substring(0, parziale.length()-1);
 			}
 		}
 		
